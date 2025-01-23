@@ -522,8 +522,8 @@ const Chat = () => {
   };
 
   return (
-    <div className="w-1/2 mx-auto border-gray-600 bg-base-200 m-5 h-[70vh] flex flex-col">
-      <h1 className="p-5 border-b border-gray-600 bg-base-300">Chat</h1>
+    <div className="w-1/2 mx-auto border-black bg-[url(https://img.freepik.com/free-vector/dialogue-chat-clouds-speech-bubble-icon-from-lines-triangles-particle-style-design-low-poly-technology-devices-people-communication-concept-blue-background_587448-471.jpg?semt=ais_hybrid)] bg-cover m-5 h-[70vh] flex flex-col">
+      <h1 className="p-5 border-b border-black text-white text-2xl">Chat</h1>
       <div className="flex-grow overflow-y-auto">
         {messages.map((msg, index) => (
           <div
@@ -549,7 +549,7 @@ const Chat = () => {
                 ? `${msg.firstName} ${msg.lastName}`
                 : "User"}
             </div>
-            <div className="chat-bubble">{msg.text}</div>
+            <div className="chat-bubble bg-sky-300 text-white">{msg.text}</div>
           </div>
         ))}
         <div ref={messagesEndRef} />
