@@ -73,7 +73,7 @@ const Feed = () => {
 
   return (
     feed && (
-      <div className="flex justify-center bg-[url(https://media.istockphoto.com/id/1208738316/photo/abstract-geometric-network-polygon-globe-graphic-background.jpg?s=612x612&w=0&k=20&c=VSOKbWwGXOiCncdyoJi2xC0vNkyWLciqkHpv17F9d6E=)] bg-cover">
+      <div className="min-h-screen flex  justify-center bg-gradient-to-r from-blue-900 via-sky-500 to-gray-800">
         <UserCard user={feed[0]} />
       </div>
     )

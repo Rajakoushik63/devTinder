@@ -106,14 +106,16 @@ const Connections = () => {
   if (!connections) return null;
   if (connections.length === 0)
     return (
-      <h1 className="flex justify-center text-bold text-2xl font-medium text-white">
-        Connections Not Found
-      </h1>
+      <div className="min-h-screen flex flex-col pb-20 bg-gradient-to-r from-blue-900 via-sky-500 to-gray-700">
+        <h1 className=" bg-black bg-opacity-50 flex justify-center text-bold text-2xl font-extrabold text-white p-4">
+          Connections Not Found
+        </h1>
+      </div>
     );
 
   return (
-    <div className={`text-center pb-20`}>
-      <h1 className="text-bold text-2xl text-white p-2 rounded-md">
+    <div className="text-center min-h-screen flex flex-col pb-20 bg-gradient-to-r from-blue-900 via-sky-500 to-gray-800">
+      <h1 className="text-bold text-2xl bg-black bg-opacity-40 text-white p-2 rounded-md">
         Connections
       </h1>
       {error && <p className="text-red-500">{error}</p>}
@@ -140,7 +142,7 @@ const Connections = () => {
               </div>
             </div>
             <Link to={`/chat/${_id}`}>
-              <button className="btn btn-primary">Chat</button>
+              <button className="btn btn-secondary">Chat</button>
             </Link>
           </div>
         );

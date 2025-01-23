@@ -39,14 +39,16 @@ const Requests = () => {
   if (!requests) return null;
   if (requests.length === 0)
     return (
-      <h1 className="flex justify-center text-bold text-2xl font-medium text-white">
-        Requests Not Found!
-      </h1>
+      <div className="min-h-screen flex flex-col pb-20 bg-gradient-to-r from-blue-900 via-sky-500 to-gray-700">
+        <h1 className=" bg-black bg-opacity-50 flex justify-center text-bold text-2xl font-extrabold text-white p-4">
+          Requests Not Found !
+        </h1>
+      </div>
     );
 
   return (
-    <div className="text-center my-10">
-      <h1 className="text-bold text-2xl text-white p-2 bg-slate-500 rounded-md">
+    <div className="text-center mb-10 min-h-screen flex flex-col pb-20 bg-gradient-to-r from-blue-900 via-sky-500 to-gray-800">
+      <h1 className="text-bold text-2xl text-white p-2 bg-black bg-opacity-40 rounded-md">
         Connection Requests
       </h1>
       {requests.map((request) => {
