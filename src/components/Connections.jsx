@@ -112,9 +112,7 @@ const Connections = () => {
     );
 
   return (
-    <div
-      className={`text-center bg-[url(https://static.vecteezy.com/system/resources/thumbnails/036/214/430/small_2x/ai-generated-abstract-technology-backgrounds-in-blue-futuristic-communication-connection-generated-by-ai-photo.jpg)] bg-cover pb-20`}
-    >
+    <div className={`text-center pb-20`}>
       <h1 className="text-bold text-2xl text-white p-2 rounded-md">
         Connections
       </h1>

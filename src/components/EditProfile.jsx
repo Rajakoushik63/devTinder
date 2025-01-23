@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import UserCard from "./UserCard";
+import EditUserCard from "./EditUserCard";
 import { BASE_URL } from "../utils/constants";
 import axios from "axios";
 import { useDispatch } from "react-redux";
@@ -39,10 +39,6 @@ const EditProfile = ({ user }) => {
       }, 3000);
     } catch (err) {
       let errorMessage = err.response.data;
-      // const maxLength = 100; // Set your desired maximum length
-      // if (errorMessage.length > maxLength) {
-      //   errorMessage = errorMessage.substring(0, maxLength) + "...";
-      // }
       setError(errorMessage);
     }
   };
@@ -51,7 +47,7 @@ const EditProfile = ({ user }) => {
     <>
       <div className="flex justify-center my-10">
         <div className="flex justify-center mx-10">
-          <div className="card bg-base-300 w-96 shadow-xl mb-12">
+          <div className="card bg-base-300 w-96 shadow-xl mb-12 mt-10">
             <div className="card-body">
               <h2 className="card-title flex justify-center">Edit Profile</h2>
               <div>
@@ -141,7 +137,7 @@ const EditProfile = ({ user }) => {
             </div>
           </div>
         </div>
-        <UserCard
+        <EditUserCard
           user={{ firstName, lastName, photourl, age, gender, about }}
         />
         {showToast && (

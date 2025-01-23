@@ -549,7 +549,7 @@ const Chat = () => {
                 ? `${msg.firstName} ${msg.lastName}`
                 : "User"}
             </div>
-            <div className="chat-bubble bg-sky-300 text-white">{msg.text}</div>
+            <div className="chat-bubble bg-sky-300 text-black">{msg.text}</div>
           </div>
         ))}
         <div ref={messagesEndRef} />
