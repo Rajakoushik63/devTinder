@@ -521,55 +521,132 @@ const Chat = () => {
     }
   };
 
+  // return (
+  //   <div className="w-1/2 mx-auto border-black bg-[url(https://img.freepik.com/free-vector/dialogue-chat-clouds-speech-bubble-icon-from-lines-triangles-particle-style-design-low-poly-technology-devices-people-communication-concept-blue-background_587448-471.jpg?semt=ais_hybrid)] bg-cover m-5 h-[70vh] flex flex-col">
+  //     <h1 className="p-5 border-b border-black text-white text-2xl">Chat</h1>
+  //     <div className="flex-grow overflow-y-auto">
+  //       {messages.map((msg, index) => (
+  //         <div
+  //           key={index}
+  //           className={
+  //             "chat " +
+  //             (user.firstName === msg.firstName ? "chat-end" : "chat-start")
+  //           }
+  //         >
+  //           <div className="chat-image avatar">
+  //             <div className="w-10 rounded-full">
+  //               <img
+  //                 alt="user Photo"
+  //                 src={
+  //                   msg.photourl ||
+  //                   "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+  //                 }
+  //               />
+  //             </div>
+  //           </div>
+  //           <div className="chat-header">
+  //             {msg.firstName && msg.lastName
+  //               ? `${msg.firstName} ${msg.lastName}`
+  //               : "User"}
+  //           </div>
+  //           <div className="chat-bubble bg-sky-300 text-black">{msg.text}</div>
+  //         </div>
+  //       ))}
+  //       <div ref={messagesEndRef} />
+  //     </div>
+  //     <form
+  //       className="p-5 border border-gray-600 flex items-center gap-2"
+  //       onSubmit={sendMessage}
+  //     >
+  //       <input
+  //         value={newMessage}
+  //         onChange={(e) => setNewMessage(e.target.value)}
+  //         className="flex-1 border-gray-500 text-white rounded p-2"
+  //       />
+  //       <button type="submit" className="btn btn-primary">
+  //         Send
+  //       </button>
+  //       <button
+  //         type="button"
+  //         onClick={clearMessages}
+  //         className="btn btn-secondary"
+  //       >
+  //         Clear
+  //       </button>
+  //     </form>
+  //   </div>
+  // );
   return (
-    <div className="w-1/2 mx-auto border-black bg-[url(https://img.freepik.com/free-vector/dialogue-chat-clouds-speech-bubble-icon-from-lines-triangles-particle-style-design-low-poly-technology-devices-people-communication-concept-blue-background_587448-471.jpg?semt=ais_hybrid)] bg-cover m-5 h-[70vh] flex flex-col">
-      <h1 className="p-5 border-b border-black text-white text-2xl">Chat</h1>
-      <div className="flex-grow overflow-y-auto">
-        {messages.map((msg, index) => (
-          <div
-            key={index}
-            className={
-              "chat " +
-              (user.firstName === msg.firstName ? "chat-end" : "chat-start")
-            }
-          >
-            <div className="chat-image avatar">
-              <div className="w-10 rounded-full">
-                <img
-                  alt="user Photo"
-                  src={
-                    msg.photourl ||
-                    "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                  }
-                />
+    <div className="sm:w-full lg:w-1/2 mx-auto border-black bg-[url(https://img.freepik.com/free-vector/dialogue-chat-clouds-speech-bubble-icon-from-lines-triangles-particle-style-design-low-poly-technology-devices-people-communication-concept-blue-background_587448-471.jpg?semt=ais_hybrid)] bg-cover bg-opacity-75 mt-5 mb-20 h-[70vh] flex flex-col rounded-lg shadow-lg">
+      <h1 className="p-5 border-b border-gray-700 text-white text-2xl font-bold bg-black bg-opacity-50 rounded-t-lg">
+        Chat
+      </h1>
+      <div className="flex-grow overflow-y-auto p-4 bg-black bg-opacity-40 rounded-b-lg">
+        {messages.length === 0 ? (
+          <div className="flex justify-center items-center h-full text-gray-300">
+            No messages yet. Start the conversation!
+          </div>
+        ) : (
+          messages.map((msg, index) => (
+            <div
+              key={index}
+              className={`chat ${
+                user.firstName === msg.firstName ? "chat-end" : "chat-start"
+              } my-2`}
+            >
+              <div className="chat-image avatar">
+                <div className="w-12 rounded-full border-2 border-gray-400">
+                  <img
+                    alt="user Photo"
+                    src={
+                      msg.photourl ||
+                      "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                    }
+                  />
+                </div>
+              </div>
+              <div className="chat-header text-gray-200 text-sm font-medium">
+                {msg.firstName && msg.lastName
+                  ? `${msg.firstName} ${msg.lastName}`
+                  : "User"}
+                <span className="text-gray-400 text-xs ml-2">
+                  {new Date().toLocaleTimeString()}
+                </span>
+              </div>
+              <div
+                className={`chat-bubble ${
+                  user.firstName === msg.firstName
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-300 text-black"
+                } shadow-md`}
+              >
+                {msg.text}
               </div>
             </div>
-            <div className="chat-header">
-              {msg.firstName && msg.lastName
-                ? `${msg.firstName} ${msg.lastName}`
-                : "User"}
-            </div>
-            <div className="chat-bubble bg-sky-300 text-black">{msg.text}</div>
-          </div>
-        ))}
+          ))
+        )}
         <div ref={messagesEndRef} />
       </div>
       <form
-        className="p-5 border border-gray-600 flex items-center gap-2"
+        className="p-5 border-t border-gray-700 bg-black bg-opacity-50 flex items-center gap-2 rounded-b-lg"
         onSubmit={sendMessage}
       >
         <input
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
-          className="flex-1 border-gray-500 text-white rounded p-2"
+          className="flex-1 rounded-lg border border-gray-600 bg-gray-800 text-white p-2"
+          placeholder="Type your message..."
         />
-        <button type="submit" className="btn btn-primary">
+        <button
+          type="submit"
+          className="btn btn-primary rounded-lg shadow-md hover:bg-blue-700"
+        >
           Send
         </button>
         <button
           type="button"
           onClick={clearMessages}
-          className="btn btn-secondary"
+          className="btn btn-secondary rounded-lg shadow-md hover:bg-gray-500"
         >
           Clear
         </button>
