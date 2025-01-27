@@ -26,7 +26,7 @@ const NavBar = () => {
             to="/"
             className="btn btn-ghost text-2xl font-extrabold text-white"
           >
-            [Feed-Page]
+            🧑‍💻DevBook
           </Link>
         </div>
         {user && (
@@ -55,7 +55,7 @@ const NavBar = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/">DevBook 👨‍💻</Link>
+                  <Link to="/">DevBook 👨‍💻 [Feed-page]</Link>
                 </li>
                 <li>
                   <Link to="/connections">Connections </Link>
