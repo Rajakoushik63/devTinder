@@ -26,7 +26,7 @@ const NavBar = () => {
             to="/"
             className="btn btn-ghost text-2xl font-extrabold text-white"
           >
-            🧑‍💻 DevBook
+            [Feed-Page]
           </Link>
         </div>
         {user && (
