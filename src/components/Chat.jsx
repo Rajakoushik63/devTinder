@@ -800,9 +800,9 @@ const Chat = () => {
                 {msg.firstName && msg.lastName
                   ? `${msg.firstName} ${msg.lastName}`
                   : "User"}
-                <span className="text-gray-400 text-xs ml-2">
+                {/* <span className="text-gray-400 text-xs ml-2">
                   {new Date().toLocaleTimeString()}
-                </span>
+                </span> */}
               </div>
               <div
                 className={`chat-bubble ${
