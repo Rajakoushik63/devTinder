@@ -299,14 +299,6 @@
 //       <h1 className="text-bold text-2xl bg-black bg-opacity-40 text-white p-4 rounded-md shadow-md">
 //         Connections
 //       </h1>
-//       <div className="flex-1">
-//         <Link
-//           to="/search"
-//           className="btn btn-ghost text-2xl font-extrabold text-white"
-//         >
-//           Search
-//         </Link>
-//       </div>
 //       {error && <p className="text-red-500 my-2">{error}</p>}
 //       {connections.map((connection) => {
 //         const { _id, firstName, lastName, photourl, age, gender, about } =
@@ -355,20 +347,71 @@
 
 // export default Connections;
 
-import { useState } from "react";
+import axios from "axios";
+import { BASE_URL } from "../utils/constants";
+import { useEffect, useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addConnections } from "../utils/connectionSlice";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 const Connections = () => {
-  const connections = useSelector((store) => store.connections); // Access connections from the Redux store
-  const [searchQuery, setSearchQuery] = useState("");
+  const connections = useSelector((store) => store.connections);
+  const dispatch = useDispatch();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState(""); // State for search query
+  const [filteredConnections, setFilteredConnections] = useState([]); // State for filtered connections
 
-  // Filter connections based on search query
-  const filteredConnections = connections.filter((connection) => {
-    const fullName =
-      `${connection.firstName} ${connection.lastName}`.toLowerCase();
-    return fullName.includes(searchQuery.toLowerCase());
-  });
+  const fetchConnections = useCallback(async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get(BASE_URL + "/user/connections", {
+        withCredentials: true,
+      });
+      dispatch(addConnections(res.data.data));
+    } catch (err) {
+      let errorMessage = err.response?.data || "Error fetching connections";
+      setError(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    fetchConnections();
+  }, [fetchConnections]);
+
+  // Filter connections based on the search query
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setFilteredConnections(connections); // If search query is empty, show all connections
+    } else {
+      const filtered = connections.filter((connection) => {
+        const fullName =
+          `${connection.firstName} ${connection.lastName}`.toLowerCase();
+        return fullName.includes(searchQuery.toLowerCase());
+      });
+      setFilteredConnections(filtered);
+    }
+  }, [searchQuery, connections]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center bg-gradient-to-r from-blue-900 via-sky-500 to-gray-800">
+        <div className="loading loading-spinner loading-lg text-white"></div>
+      </div>
+    );
+  }
+
+  if (!connections || connections.length === 0) {
+    return (
+      <div className="min-h-screen flex flex-col pb-20 bg-gradient-to-r from-blue-900 via-sky-500 to-gray-700">
+        <h1 className="bg-black bg-opacity-50 flex justify-center text-bold text-2xl font-extrabold text-white p-4">
+          Connections Not Found
+        </h1>
+      </div>
+    );
+  }
 
   return (
     <div className="text-center min-h-screen flex flex-col pb-20 bg-gradient-to-r from-blue-900 via-sky-500 to-gray-800">
@@ -376,16 +419,18 @@ const Connections = () => {
         Connections
       </h1>
 
-      {/* Search Input */}
+      {/* Search Bar */}
       <div className="flex justify-center mt-6">
         <input
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search friends..."
+          placeholder="Search friends by name..."
           className="rounded-lg border border-gray-600 bg-gray-800 text-white p-2 w-3/4 lg:w-1/2"
         />
       </div>
+
+      {error && <p className="text-red-500 my-2">{error}</p>}
 
       <div className="flex-1 mt-6">
         {filteredConnections.length > 0 ? (
