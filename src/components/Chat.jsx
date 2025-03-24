@@ -663,6 +663,7 @@ import { useParams } from "react-router-dom";
 import { createSocketConnection } from "../utils/socket";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
+import { toast } from "react-toastify";
 
 const Chat = () => {
   const { targetUserId } = useParams();
@@ -758,7 +759,9 @@ const Chat = () => {
         withCredentials: true,
       });
       setMessages([]);
+      toast.success("Messages deleted successfully");
     } catch (error) {
+      toast.success("Messages deleted successfully");
       console.error("Error clearing messages:", error);
     }
   };
