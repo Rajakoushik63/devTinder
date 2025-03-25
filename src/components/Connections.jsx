@@ -348,7 +348,7 @@
 // export default Connections;
 
 import axios from "axios";
-import { BASE_URL } from "../utils/constants";
+import { BASE_URL } from "../utils/constants"; // Import the background image URL from constants
 import { useEffect, useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addConnections } from "../utils/connectionSlice";
@@ -358,13 +358,13 @@ const Connections = () => {
   const connections = useSelector((store) => store.connections);
   const dispatch = useDispatch();
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState(""); // State for search query
-  const [filteredConnections, setFilteredConnections] = useState([]); // State for filtered connections
+  const [loading, setLoading] = useState(true); // Loading state
+  const [searchQuery, setSearchQuery] = useState(""); // Search query state
+  const [filteredConnections, setFilteredConnections] = useState([]); // Filtered connections
 
   const fetchConnections = useCallback(async () => {
     try {
-      setLoading(true);
+      setLoading(true); // Start loading
       const res = await axios.get(BASE_URL + "/user/connections", {
         withCredentials: true,
       });
@@ -373,7 +373,7 @@ const Connections = () => {
       let errorMessage = err.response?.data || "Error fetching connections";
       setError(errorMessage);
     } finally {
-      setLoading(false);
+      setLoading(false); // Stop loading
     }
   }, [dispatch]);
 
@@ -383,15 +383,15 @@ const Connections = () => {
 
   // Filter connections based on the search query
   useEffect(() => {
-    if (!searchQuery.trim()) {
-      setFilteredConnections(connections); // If search query is empty, show all connections
-    } else {
-      const filtered = connections.filter((connection) => {
-        const fullName =
-          `${connection.firstName} ${connection.lastName}`.toLowerCase();
-        return fullName.includes(searchQuery.toLowerCase());
-      });
+    if (searchQuery) {
+      const filtered = connections.filter((connection) =>
+        (connection.firstName + " " + connection.lastName)
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())
+      );
       setFilteredConnections(filtered);
+    } else {
+      setFilteredConnections(connections);
     }
   }, [searchQuery, connections]);
 
@@ -418,73 +418,69 @@ const Connections = () => {
       <h1 className="text-bold text-2xl bg-black bg-opacity-40 text-white p-4 rounded-md shadow-md">
         Connections
       </h1>
+      {error && <p className="text-red-500 my-2">{error}</p>}
 
       {/* Search Bar */}
-      <div className="flex justify-center mt-6">
+      <div className="flex justify-center my-4">
         <input
           type="text"
+          className="w-3/4 lg:w-1/3 p-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Search by friend's name..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search friends by name..."
-          className="rounded-lg border border-gray-600 bg-gray-800 text-white p-2 w-3/4 lg:w-1/2"
         />
       </div>
 
-      {error && <p className="text-red-500 my-2">{error}</p>}
-
-      <div className="flex-1 mt-6">
-        {filteredConnections.length > 0 ? (
-          filteredConnections.map((connection) => {
-            const { _id, firstName, lastName, photourl, age, gender, about } =
-              connection;
-            return (
-              <div
-                className="flex flex-col lg:flex-row m-6 p-6 rounded-lg bg-gradient-to-r from-gray-500 via-gray-300 to-gray-400 shadow-lg w-11/12 lg:w-3/4 mx-auto gap-6"
-                key={_id}
-              >
-                {/* Image Section */}
-                <div className="flex-shrink-0">
-                  <img
-                    alt="profile"
-                    className="w-28 h-28 lg:w-24 lg:h-24 rounded-full border-4 border-gray-300 shadow-md object-cover"
-                    src={photourl}
-                  />
-                </div>
-
-                {/* Text Section */}
-                <div className="flex flex-col items-center lg:items-start text-left mx-4">
-                  <h2 className="font-bold text-lg lg:text-xl text-gray-800">
-                    {firstName + " " + lastName}
-                  </h2>
-                  {age && gender && (
-                    <p className="text-sm lg:text-base text-gray-600">
-                      {age + " years old, " + gender}
-                    </p>
-                  )}
-                  <p className="text-sm lg:text-base text-gray-700 my-2">
-                    {about}
-                  </p>
-                </div>
-
-                {/* Chat Button */}
-                <div className="flex-shrink-0 self-center lg:self-start">
-                  <Link to={`/chat/${_id}`}>
-                    <button className="btn btn-secondary px-6 py-2 rounded-lg shadow-md hover:bg-secondary-focus transition">
-                      Chat
-                    </button>
-                  </Link>
-                </div>
+      {/* Filtered Connections */}
+      {filteredConnections.length === 0 ? (
+        <p className="text-white text-lg">
+          No friends match your search query.
+        </p>
+      ) : (
+        filteredConnections.map((connection) => {
+          const { _id, firstName, lastName, photourl, age, gender, about } =
+            connection;
+          return (
+            <div
+              className="flex flex-col lg:flex-row m-6 p-6 rounded-lg bg-gradient-to-r from-gray-500 via-gray-300 to-gray-400 shadow-lg w-11/12 lg:w-3/4 mx-auto gap-6"
+              key={_id}
+            >
+              {/* Image Section */}
+              <div className="flex-shrink-0">
+                <img
+                  alt="profile"
+                  className="w-28 h-28 lg:w-24 lg:h-24 rounded-full border-4 border-gray-300 shadow-md object-cover"
+                  src={photourl}
+                />
               </div>
-            );
-          })
-        ) : (
-          <p className="text-white text-lg mt-10">
-            {searchQuery.trim()
-              ? "No friends found matching your search."
-              : "No connections to display."}
-          </p>
-        )}
-      </div>
+
+              {/* Text Section */}
+              <div className="flex flex-col items-center lg:items-start text-left mx-4">
+                <h2 className="font-bold text-lg lg:text-xl text-gray-800">
+                  {firstName + " " + lastName}
+                </h2>
+                {age && gender && (
+                  <p className="text-sm lg:text-base text-gray-600">
+                    {age + " years old, " + gender}
+                  </p>
+                )}
+                <p className="text-sm lg:text-base text-gray-700 my-2">
+                  {about}
+                </p>
+              </div>
+
+              {/* Chat Button */}
+              <div className="flex-shrink-0 self-center lg:self-start">
+                <Link to={`/chat/${_id}`}>
+                  <button className="btn btn-secondary px-6 py-2 rounded-lg shadow-md hover:bg-secondary-focus transition">
+                    Chat
+                  </button>
+                </Link>
+              </div>
+            </div>
+          );
+        })
+      )}
     </div>
   );
 };
